@@ -11,6 +11,12 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/**
+ * @author Matheus Henrique da Silva Mendes
+ * @version v0.1
+ * @since 24/08/2021
+ */
+
 @Entity
 @Getter
 @Setter
