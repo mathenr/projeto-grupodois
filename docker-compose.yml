@@ -12,7 +12,7 @@ services:
     restart: "no"
     tty: true
     ports:
-      - "3306:3306"
+      - "6906:3306"
     networks:
       - plataforma-cursos
     environment:
