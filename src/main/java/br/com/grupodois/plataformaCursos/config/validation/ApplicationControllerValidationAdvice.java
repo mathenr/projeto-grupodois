@@ -13,6 +13,13 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+/**
+ * @author Matheus Henrique da Silva Mendes
+ * @version v0.1
+ * @since 24/08/2021
+ */
+
 @RestControllerAdvice
 public class ApplicationControllerValidationAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
