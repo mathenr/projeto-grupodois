@@ -1,8 +1,8 @@
 package br.com.grupodois.plataformaCursos.controller;
 
 import br.com.grupodois.plataformaCursos.dto.CourseDto;
-import br.com.grupodois.plataformaCursos.dto.form.CourseForm;
-import br.com.grupodois.plataformaCursos.dto.form.UpdateCourseForm;
+import br.com.grupodois.plataformaCursos.dto.form.course.CourseForm;
+import br.com.grupodois.plataformaCursos.dto.form.course.CourseUpdateForm;
 import br.com.grupodois.plataformaCursos.modelo.Course;
 import br.com.grupodois.plataformaCursos.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,10 +51,10 @@ public class CourseController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<CourseDto> update(@PathVariable Long id, @RequestBody @Valid UpdateCourseForm updateCourseForm){
+    public ResponseEntity<CourseDto> update(@PathVariable Long id, @RequestBody @Valid CourseUpdateForm courseUpdateForm){
         Optional<Course> optional = courseRepository.findById(id);
         if (optional.isPresent()){
-            Course course = updateCourseForm.update(id, courseRepository);
+            Course course = courseUpdateForm.update(id, courseRepository);
             return ResponseEntity.ok(new CourseDto(course));
         }
         return ResponseEntity.notFound().build();

@@ -1,16 +1,12 @@
-package br.com.grupodois.plataformaCursos.dto.form;
+package br.com.grupodois.plataformaCursos.dto.form.course;
 
-import br.com.grupodois.plataformaCursos.dto.CourseDto;
 import br.com.grupodois.plataformaCursos.modelo.Course;
-import br.com.grupodois.plataformaCursos.repository.CourseRepository;
-import org.springframework.http.ResponseEntity;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Optional;
 
-public class UpdateCourseForm {
-    @NotNull  @NotEmpty
+public class CourseForm {
+    @NotNull @NotEmpty
     private String name;
     @NotNull @NotEmpty
     private String category;
@@ -22,6 +18,10 @@ public class UpdateCourseForm {
     private boolean has_certificate;
     @NotNull
     private double evaluation;
+
+    public Course converter(){
+        return new Course(name, category, workload, status, has_certificate, evaluation);
+    }
 
     public String getName() {
         return name;
@@ -69,17 +69,5 @@ public class UpdateCourseForm {
 
     public void setEvaluation(double evaluation) {
         this.evaluation = evaluation;
-    }
-
-    public Course update(Long id, CourseRepository courseRepository) {
-        Course course = courseRepository.getById(id);
-        course.setName(this.name);
-        course.setCategory(this.category);
-        course.setWorkload(this.workload);
-        course.setStatus(this.status);
-        course.setHas_certificate(this.has_certificate);
-        course.setEvaluation(this.evaluation);
-        return course;
-
     }
 }
