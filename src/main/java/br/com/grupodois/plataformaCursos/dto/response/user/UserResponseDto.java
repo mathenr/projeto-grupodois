@@ -5,6 +5,12 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+/**
+ * @author Matheus Henrique da Silva Mendes
+ * @version v0.1
+ * @since 24/08/2021
+ */
+
 @Getter
 @Setter
 @Builder
