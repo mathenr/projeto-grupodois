@@ -19,7 +19,7 @@ public class CourseForm {
     @NotNull
     private double evaluation;
 
-    public Course converter(){
+    public Course convert(){
         return new Course(name, category, workload, status, has_certificate, evaluation);
     }
 
