@@ -21,6 +21,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 
+/**
+ * @author Matheus Henrique da Silva Mendes
+ * @version v0.1
+ * @since 24/08/2021
+ */
 @RestController
 @RequestMapping("/users")
 public class UserController {
