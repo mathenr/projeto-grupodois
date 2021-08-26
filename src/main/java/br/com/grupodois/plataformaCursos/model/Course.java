@@ -1,4 +1,4 @@
-package br.com.grupodois.plataformaCursos.modelo;
+package br.com.grupodois.plataformaCursos.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -1,6 +1,6 @@
 package br.com.grupodois.plataformaCursos.dto;
 
-import br.com.grupodois.plataformaCursos.modelo.Course;
+import br.com.grupodois.plataformaCursos.model.Course;
 
 import java.time.LocalDateTime;
 import java.util.List;
