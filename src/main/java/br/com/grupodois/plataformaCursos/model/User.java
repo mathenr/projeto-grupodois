@@ -37,19 +37,17 @@ public class User {
     private String lastName;
 
     @NotEmpty(message = "E-mail cannot be empty!") @NotNull(message = "E-mail required!")
-    @Column
+    @Column(nullable = false)
     private String email;
 
     @NotEmpty(message = "Password cannot be empty!")
     @Column(nullable = false)
     private String password;
 
-    @Column
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @OrderColumn
     private LocalDateTime updatedAt;
 
     @Override

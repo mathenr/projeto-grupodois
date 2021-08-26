@@ -2,6 +2,7 @@ package br.com.grupodois.plataformaCursos.controller;
 
 import br.com.grupodois.plataformaCursos.dto.form.user.UserFormDto;
 import br.com.grupodois.plataformaCursos.dto.form.user.UserUpdateFormDto;
+import br.com.grupodois.plataformaCursos.dto.response.user.UserErrorMessageDto;
 import br.com.grupodois.plataformaCursos.dto.response.user.UserResponseDeleteDto;
 import br.com.grupodois.plataformaCursos.dto.response.user.UserResponseDto;
 import br.com.grupodois.plataformaCursos.model.User;
@@ -27,7 +28,7 @@ import javax.validation.Valid;
  * @since 24/08/2021
  */
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
@@ -41,13 +42,13 @@ public class UserController {
     @Cacheable(value = "users")
     public Page<UserResponseDto> findAll(@RequestParam(required = false) String firstName,
                                          @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 5) Pageable pagination) {
-        try{
+        try {
             if (firstName == null) {
                 return userRepository.findAll(pagination).map(UserResponseDto::new);
             } else {
                 return userRepository.findByFirstNameLike(firstName, pagination).map(UserResponseDto::new);
             }
-        }catch(ResponseStatusException exception){
+        } catch (ResponseStatusException exception) {
             return Page.empty();
         }
 
@@ -56,19 +57,19 @@ public class UserController {
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @Cacheable(value = "user")
-    public ResponseEntity<UserResponseDto> findOne(@PathVariable Long id) {
+    public ResponseEntity<?> findOne(@PathVariable Long id) {
         try {
             UserResponseDto userResponse = userService.createResponseDto(id);
             return ResponseEntity.ok(userResponse);
         } catch (ResponseStatusException exception) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(UserErrorMessageDto.builder().message("User not found!").build());
         }
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @CacheEvict(value = {"users", "user"}, allEntries = true)
-    public ResponseEntity<UserResponseDto> store(@RequestBody @Valid UserFormDto userForm) {
+    public ResponseEntity<?> store(@RequestBody @Valid UserFormDto userForm) {
         try {
             User user = User.builder().firstName(
                             userForm.getFirstName())
@@ -79,7 +80,7 @@ public class UserController {
             User userResponse = userRepository.save(user);
             return ResponseEntity.ok(new UserResponseDto(userResponse));
         } catch (ResponseStatusException exception) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(UserErrorMessageDto.builder().message("Ops! An error occurred to save user!").build());
         }
     }
 
@@ -87,31 +88,33 @@ public class UserController {
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @CacheEvict(value = {"users", "user"}, allEntries = true)
-    public ResponseEntity<UserResponseDto> update(@RequestBody UserUpdateFormDto userFormDto, @PathVariable Long id) {
-        return userRepository.findById(id).map(
-                userUpdated -> {
-                    userUpdated.setFirstName(userFormDto.getFirstName());
-                    userUpdated.setLastName(userFormDto.getLastName());
-                    userUpdated.setEmail(userFormDto.getEmail());
-                    User user = userRepository.save(userUpdated);
-                    UserResponseDto userResponseDto = UserResponseDto.builder()
-                            .id(user.getId())
-                            .firstName(user.getFirstName())
-                            .lastName(user.getLastName())
-                            .email(user.getEmail())
-                            .createdAt(user.getCreatedAt())
-                            .updatedAt(user.getUpdatedAt())
-                            .build();
-                    return ResponseEntity.ok(userResponseDto);
-                }
-        ).orElse(ResponseEntity.badRequest().build());
+    public ResponseEntity<?> update(@RequestBody UserUpdateFormDto userFormDto, @PathVariable Long id) {
+        try {
+            User userToUpdate = userService.getUserById(id);
+            userToUpdate.setFirstName(userFormDto.getFirstName());
+            userToUpdate.setLastName(userFormDto.getLastName());
+            userToUpdate.setEmail(userFormDto.getEmail());
+            User userUpdated = userRepository.save(userToUpdate);
+
+            UserResponseDto userResponseDto = UserResponseDto.builder()
+                    .id(userUpdated.getId())
+                    .firstName(userUpdated.getFirstName())
+                    .lastName(userUpdated.getLastName())
+                    .email(userUpdated.getEmail())
+                    .createdAt(userUpdated.getCreatedAt())
+                    .updatedAt(userUpdated.getUpdatedAt())
+                    .build();
+            return ResponseEntity.ok(userResponseDto);
+        } catch (ResponseStatusException exception) {
+            return ResponseEntity.badRequest().body(UserErrorMessageDto.builder().message("Ops! An error occurred to update user!").build());
+        }
     }
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @CacheEvict(value = {"users", "user"}, allEntries = true)
-    public ResponseEntity<UserResponseDeleteDto> delete(@PathVariable() Long id){
-        try{
+    public ResponseEntity<?> delete(@PathVariable() Long id) {
+        try {
             User user = userService.getUserById(id);
             userRepository.delete(user);
             UserResponseDeleteDto userDeleted = UserResponseDeleteDto.builder()
@@ -119,8 +122,8 @@ public class UserController {
                     .email(user.getEmail())
                     .build();
             return ResponseEntity.ok(userDeleted);
-        }catch(ResponseStatusException exception){
-         return ResponseEntity.badRequest().build();
+        } catch (ResponseStatusException exception) {
+            return ResponseEntity.badRequest().body(UserErrorMessageDto.builder().message("Ops! An error occurred to delete user!").build());
         }
     }
 }
