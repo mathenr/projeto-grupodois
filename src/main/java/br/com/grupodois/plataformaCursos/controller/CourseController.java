@@ -6,6 +6,10 @@ import br.com.grupodois.plataformaCursos.dto.form.course.CourseUpdateForm;
 import br.com.grupodois.plataformaCursos.model.Course;
 import br.com.grupodois.plataformaCursos.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -13,7 +17,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -24,16 +27,17 @@ public class CourseController {
     private CourseRepository courseRepository;
 
     @GetMapping
-    public List<CourseDto> listAll(){
-        List<Course> courses = courseRepository.findAll();
+    public Page<CourseDto> findAll(@PageableDefault(sort = "id", direction = Sort.Direction.ASC, page = 0)
+                                               Pageable pagination){
+        Page<Course> courses = courseRepository.findAll(pagination);
 
-        return CourseDto.converter(courses);
+        return CourseDto.convert(courses);
     }
 
     @PostMapping
     @Transactional
-    public ResponseEntity<CourseDto> create(@RequestBody @Valid CourseForm courseForm, UriComponentsBuilder uriBuilder){
-        Course course = courseForm.converter();
+    public ResponseEntity<CourseDto> store(@RequestBody @Valid CourseForm courseForm, UriComponentsBuilder uriBuilder){
+        Course course = courseForm.convert();
         courseRepository.save(course);
 
         URI uri = uriBuilder.path("/courses/{id}").buildAndExpand(course.getId()).toUri();
@@ -41,7 +45,7 @@ public class CourseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CourseDto> list(@PathVariable Long id){
+    public ResponseEntity<CourseDto> findOne(@PathVariable Long id){
         Optional<Course> course = courseRepository.findById(id);
         if(course.isPresent()){
             return ResponseEntity.ok(new CourseDto(course.get()));

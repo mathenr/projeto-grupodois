@@ -1,6 +1,7 @@
 package br.com.grupodois.plataformaCursos.dto;
 
 import br.com.grupodois.plataformaCursos.model.Course;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,8 +28,8 @@ public class CourseDto {
         this.createdAt = course.getCreatedAt();
     }
 
-    public static List<CourseDto> converter(List<Course> courses){
-        return courses.stream().map(CourseDto::new).collect(Collectors.toList());
+    public static Page<CourseDto> convert(Page<Course> courses){
+        return courses.map(CourseDto::new);
     }
 
     public Long getId() {
