@@ -3,7 +3,7 @@ package br.com.grupodois.plataformaCursos.controller;
 import br.com.grupodois.plataformaCursos.dto.CourseDto;
 import br.com.grupodois.plataformaCursos.dto.form.course.CourseForm;
 import br.com.grupodois.plataformaCursos.dto.form.course.CourseUpdateForm;
-import br.com.grupodois.plataformaCursos.modelo.Course;
+import br.com.grupodois.plataformaCursos.model.Course;
 import br.com.grupodois.plataformaCursos.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

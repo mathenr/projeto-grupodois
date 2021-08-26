@@ -1,6 +1,6 @@
 package br.com.grupodois.plataformaCursos.dto.form.course;
 
-import br.com.grupodois.plataformaCursos.modelo.Course;
+import br.com.grupodois.plataformaCursos.model.Course;
 import br.com.grupodois.plataformaCursos.repository.CourseRepository;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
