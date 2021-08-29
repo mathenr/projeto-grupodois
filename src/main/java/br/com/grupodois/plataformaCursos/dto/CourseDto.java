@@ -1,12 +1,13 @@
 package br.com.grupodois.plataformaCursos.dto;
 
 import br.com.grupodois.plataformaCursos.model.Course;
+import lombok.*;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
+@Getter
+@Builder @NoArgsConstructor @AllArgsConstructor
 public class CourseDto {
     private Long id;
     private String name;
@@ -30,37 +31,5 @@ public class CourseDto {
 
     public static Page<CourseDto> convert(Page<Course> courses){
         return courses.map(CourseDto::new);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public double getWorkload() {
-        return workload;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public boolean isHas_certificate() {
-        return has_certificate;
-    }
-
-    public double getEvaluation() {
-        return evaluation;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
     }
 }
