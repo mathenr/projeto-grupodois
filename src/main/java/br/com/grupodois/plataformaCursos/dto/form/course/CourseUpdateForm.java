@@ -2,9 +2,14 @@ package br.com.grupodois.plataformaCursos.dto.form.course;
 
 import br.com.grupodois.plataformaCursos.model.Course;
 import br.com.grupodois.plataformaCursos.repository.CourseRepository;
+import lombok.*;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+@Getter
+@Setter
+@Builder
 public class CourseUpdateForm {
     @NotNull  @NotEmpty
     private String name;
@@ -19,54 +24,6 @@ public class CourseUpdateForm {
     @NotNull
     private double evaluation;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public double getWorkload() {
-        return workload;
-    }
-
-    public void setWorkload(double workload) {
-        this.workload = workload;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public boolean isHas_certificate() {
-        return has_certificate;
-    }
-
-    public void setHas_certificate(boolean has_certificate) {
-        this.has_certificate = has_certificate;
-    }
-
-    public double getEvaluation() {
-        return evaluation;
-    }
-
-    public void setEvaluation(double evaluation) {
-        this.evaluation = evaluation;
-    }
-
     public Course update(Long id, CourseRepository courseRepository) {
         Course course = courseRepository.getById(id);
         course.setName(this.name);
@@ -76,6 +33,5 @@ public class CourseUpdateForm {
         course.setHas_certificate(this.has_certificate);
         course.setEvaluation(this.evaluation);
         return course;
-
     }
 }
