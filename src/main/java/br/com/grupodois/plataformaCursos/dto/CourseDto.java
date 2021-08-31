@@ -1,12 +1,11 @@
 package br.com.grupodois.plataformaCursos.dto;
 
 import br.com.grupodois.plataformaCursos.model.Course;
+import br.com.grupodois.plataformaCursos.model.StatusCourse;
 import lombok.*;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Builder @NoArgsConstructor @AllArgsConstructor
@@ -15,7 +14,7 @@ public class CourseDto {
     private String name;
     private String category;
     private double workload;
-    private String status;
+    private StatusCourse status;
     private boolean has_certificate;
     private double evaluation;
     private LocalDateTime createdAt;
