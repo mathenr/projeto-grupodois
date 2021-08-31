@@ -1,6 +1,7 @@
 package br.com.grupodois.plataformaCursos.dto.form.course;
 
 import br.com.grupodois.plataformaCursos.model.Course;
+import br.com.grupodois.plataformaCursos.model.StatusCourse;
 import lombok.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -17,8 +18,8 @@ public class CourseForm {
     private String category;
     @NotNull
     private double workload;
-    @NotNull @NotEmpty
-    private String status;
+    @NotNull
+    private StatusCourse status;
     @NotNull
     private boolean has_certificate;
     @NotNull

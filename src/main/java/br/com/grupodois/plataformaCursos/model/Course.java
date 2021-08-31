@@ -2,10 +2,7 @@ package br.com.grupodois.plataformaCursos.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,7 +16,8 @@ public class Course {
     private String name;
     private String category;
     private double workload;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private StatusCourse status;
     private boolean has_certificate;
     private double evaluation;
     private LocalDateTime createdAt = LocalDateTime.now();
