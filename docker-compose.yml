@@ -1,0 +1,24 @@
+version: "3.0"
+
+networks:
+  plataforma-cursos:
+    external: true
+
+services:
+
+  plataforma_cursos_db:
+    image: "mysql:8.0"
+    container_name: 'plataforma_cursos_db'
+    restart: "no"
+    tty: true
+    ports:
+      - "6906:3306"
+    networks:
+      - plataforma-cursos
+    environment:
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./docker/data:/var/lib/mysql
+      - ./docker/init_database:/docker-entrypoint-initdb.d/
